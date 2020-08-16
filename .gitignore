@@ -1,0 +1,8 @@
+### dotnet files ###
+
+obj/
+bin/
+
+### private ###
+
+.private/
