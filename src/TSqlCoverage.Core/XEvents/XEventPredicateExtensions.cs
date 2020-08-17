@@ -8,6 +8,19 @@ namespace TSqlCoverage.XEvents
 {
     public static class XEventPredicateExtensions
     {
+        public static XEventPredicate Equal(this XEventField<XEventInt32Value> field, int value)
+            => XEventExpressionPredicate.Create(XEventExpressionPredicateComparison.Equal, field, value);
+        public static XEventPredicate NotEqual(this XEventField<XEventInt32Value> field, int value)
+            => XEventExpressionPredicate.Create(XEventExpressionPredicateComparison.NotEqual, field, value);
+        public static XEventPredicate GreaterThan(this XEventField<XEventInt32Value> field, int value)
+            => XEventExpressionPredicate.Create(XEventExpressionPredicateComparison.GreaterThan, field, value);
+        public static XEventPredicate GreaterThanOrEqual(this XEventField<XEventInt32Value> field, int value)
+            => XEventExpressionPredicate.Create(XEventExpressionPredicateComparison.GreaterThanOrEqual, field, value);
+        public static XEventPredicate LessThan(this XEventField<XEventInt32Value> field, int value)
+            => XEventExpressionPredicate.Create(XEventExpressionPredicateComparison.LessThan, field, value);
+        public static XEventPredicate LessThanOrEqual(this XEventField<XEventInt32Value> field, int value)
+            => XEventExpressionPredicate.Create(XEventExpressionPredicateComparison.LessThanOrEqual, field, value);
+
         public static XEventPredicate Equal(this XEventField<XEventUInt64Value> field, ulong value)
             => XEventExpressionPredicate.Create(XEventExpressionPredicateComparison.Equal, field, value);
         public static XEventPredicate NotEqual(this XEventField<XEventUInt64Value> field, ulong value)

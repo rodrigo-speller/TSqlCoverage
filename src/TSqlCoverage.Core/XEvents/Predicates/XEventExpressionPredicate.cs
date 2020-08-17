@@ -54,6 +54,13 @@ namespace TSqlCoverage.XEvents.Predicates
 
         public static XEventPredicate Create(
             XEventExpressionPredicateComparison @operator,
+            XEventField<XEventInt32Value> field,
+            int value
+        )
+            => Create<XEventInt32Value, int>(@operator, field, value);
+
+        public static XEventPredicate Create(
+            XEventExpressionPredicateComparison @operator,
             XEventField<XEventUInt64Value> field,
             ulong value
         )
