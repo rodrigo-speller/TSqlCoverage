@@ -66,6 +66,13 @@ namespace TSqlCoverage.XEvents.Predicates
         )
             => Create<XEventUInt64Value, ulong>(@operator, field, value);
 
+        public static XEventPredicate Create<T>(
+            XEventExpressionPredicateComparison @operator,
+            XEventField<XEventMapValue<T>> field,
+            T value
+        ) where T : Enum
+            => Create<XEventMapValue<T>, T>(@operator, field, value);
+
         public static XEventPredicate Create(
             XEventPredicateExpressionOperator<XEventUnicodeStringValue> @operator,
             XEventField<XEventUnicodeStringValue> field,
