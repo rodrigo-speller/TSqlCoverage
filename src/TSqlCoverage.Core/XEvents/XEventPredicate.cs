@@ -13,6 +13,9 @@ namespace TSqlCoverage.XEvents
 
         public abstract void WriteTo(TextWriter writer);
 
+        public virtual XEventPredicate Optimize()
+            => this;
+
         public override string ToString()
         {
             using (var writer = new StringWriter())

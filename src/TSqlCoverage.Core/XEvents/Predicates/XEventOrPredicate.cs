@@ -25,9 +25,6 @@ namespace TSqlCoverage.XEvents.Predicates
             if (right is null)
                 throw new ArgumentNullException(nameof(right));
 
-            if (left == right)
-                return left;
-
             return new XEventOrPredicate(left, right);
         }
 
@@ -36,6 +33,21 @@ namespace TSqlCoverage.XEvents.Predicates
             Left.WriteTo(writer);
             writer.Write(" OR ");
             Right.WriteTo(writer);
+        }
+
+        public override XEventPredicate Optimize()
+        {
+            var left = Left.Optimize();
+            var right = Right.Optimize();
+
+            if (left == right)
+                return left;
+
+            var result = new XEventOrPredicate(left, right);
+            if (result == this)
+                return this;
+
+            return result;
         }
 
         public override bool Equals(object obj)
@@ -47,8 +59,8 @@ namespace TSqlCoverage.XEvents.Predicates
             {
                 var result = this.Left == other.Left && this.Right == other.Right
                     || this.Left == other.Right && this.Right == other.Left
-                ;
-
+                    ;
+                
                 if (result)
                 {
                     // to improve performante in future comparisons

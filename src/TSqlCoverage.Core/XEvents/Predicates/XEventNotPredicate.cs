@@ -17,9 +17,6 @@ namespace TSqlCoverage.XEvents.Predicates
 
         public static XEventPredicate Create(XEventPredicate predicate)
         {
-            if (predicate is XEventNotPredicate not)
-                return not.Predicate;
-
             return new XEventNotPredicate(predicate);
         }
 
@@ -29,7 +26,17 @@ namespace TSqlCoverage.XEvents.Predicates
             Predicate.WriteTo(writer);
             writer.Write(')');
         }
-        
+
+        public override XEventPredicate Optimize()
+        {
+            var predicate = Predicate;
+
+            if (predicate is XEventNotPredicate not)
+                return not.Predicate.Optimize();
+
+            return this;
+        }
+
         public override bool Equals(object obj)
         {
             if (object.ReferenceEquals(this, obj))

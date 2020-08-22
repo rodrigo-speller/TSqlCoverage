@@ -25,10 +25,22 @@ namespace TSqlCoverage.XEvents.Predicates
             if (right is null)
                 throw new ArgumentNullException(nameof(right));
 
+            return new XEventAndPredicate(left, right);
+        }
+
+        public override XEventPredicate Optimize()
+        {
+            var left = Left.Optimize();
+            var right = Right.Optimize();
+
             if (left == right)
                 return left;
 
-            return new XEventAndPredicate(left, right);
+            var result = new XEventAndPredicate(left, right);
+            if (result == this)
+                return this;
+
+            return result;
         }
 
         public override bool Equals(object obj)
