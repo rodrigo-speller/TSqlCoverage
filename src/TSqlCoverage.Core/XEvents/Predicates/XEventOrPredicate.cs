@@ -14,8 +14,8 @@ namespace TSqlCoverage.XEvents.Predicates
             Right = right;
         }
 
-        public XEventPredicate Left { get; }
-        public XEventPredicate Right { get; }
+        public XEventPredicate Left { get; private set; }
+        public XEventPredicate Right { get; private set; }
 
         public static XEventPredicate Create(XEventPredicate left, XEventPredicate right)
         {
@@ -44,9 +44,18 @@ namespace TSqlCoverage.XEvents.Predicates
                 return true;
 
             if (obj is XEventOrPredicate other)
-                return this.Left == other.Left && this.Right == other.Right
+            {
+                var result = this.Left == other.Left && this.Right == other.Right
                     || this.Left == other.Right && this.Right == other.Left
                 ;
+
+                if (result)
+                {
+                    // to improve performante in future comparisons
+                    other.Left = this.Left;
+                    other.Right = this.Right;
+                }
+            }
 
             return false;
         }
