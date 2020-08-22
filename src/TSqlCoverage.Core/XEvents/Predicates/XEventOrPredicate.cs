@@ -55,6 +55,8 @@ namespace TSqlCoverage.XEvents.Predicates
                     other.Left = this.Left;
                     other.Right = this.Right;
                 }
+
+                return result;
             }
 
             return false;
