@@ -21,32 +21,32 @@ namespace TSqlCoverage.Metadata
         public TSqlParseException(string message)
             : base(message ?? DefaultMessage)
         {
-            this.Errors = Array.Empty<Error>();
+            this.Errors = Array.Empty<ErrorInfo>();
         }
 
-        public TSqlParseException(IList<Error> errors)
+        public TSqlParseException(IEnumerable<Error> errors)
             : base("One or more errors occurred while parsing T-SQL code.")
         {
             if (errors is null)
                 throw new ArgumentNullException(nameof(errors));
 
-            Errors = errors.ToArray();
+            Errors = errors.Select(e => new ErrorInfo(e)).ToArray();
         }
 
-        public TSqlParseException(System.Exception inner)
+        public TSqlParseException(Exception inner)
             : base("One exception occurred while parsing T-SQL code.", inner)
         {
-            this.Errors = Array.Empty<Error>();
+            this.Errors = Array.Empty<ErrorInfo>();
         }
 
         protected TSqlParseException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            this.Errors = (Error[])info.GetValue("Errors", typeof(Error[]))
-                ?? Array.Empty<Error>();
+            this.Errors = (ErrorInfo[])info.GetValue("Errors", typeof(ErrorInfo[]))
+                ?? Array.Empty<ErrorInfo>();
         }
 
-        public IReadOnlyList<Error> Errors { get; }
+        public IReadOnlyList<ErrorInfo> Errors { get; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
