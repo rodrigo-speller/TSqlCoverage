@@ -4,5 +4,6 @@
 using System.Runtime.CompilerServices;
 
 #if DEBUG
+[assembly: InternalsVisibleTo("TSqlCoverage.Core.IntegrationTests")]
 [assembly: InternalsVisibleTo("TSqlCoverage.Core.UnitTests")]
 #endif
