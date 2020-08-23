@@ -21,7 +21,11 @@ namespace TSqlCoverage.Metadata
         {
             var schema = Schema;
 
-            return $"{schema.Database.Name.QuotedIdentifier}.{schema.Name.QuotedIdentifier}.{Name.QuotedIdentifier}";
+            var databaseIdentifier = schema.Database.Name.DelimitedIdentifier;
+            var schemaIdentifier = schema.Name.DelimitedIdentifier;
+            var objectIdentifier = Name.DelimitedIdentifier;
+
+            return $"{databaseIdentifier}.{schemaIdentifier}.{objectIdentifier}";
         }
     }
 }

@@ -11,33 +11,35 @@ namespace TSqlCoverage.Metadata
         : IEquatable<SqlIdentifier>
         , IEquatable<string>
     {
-        private string unquotedIdentifier;
-        private string quotedIdentifier;
+        private string regularIdentifier;
+        private string delimitedIdentifier;
 
-        public SqlIdentifier(string identifier, bool isQuoted)
+        public SqlIdentifier(string identifier, bool isDelimited)
         {
             if (identifier is null)
                 throw new ArgumentNullException(nameof(identifier));
 
-            if (isQuoted)
+            if (isDelimited)
             {
-                this.unquotedIdentifier = new SqlCommandBuilder().UnquoteIdentifier(identifier);
-                this.quotedIdentifier = identifier;
+                this.regularIdentifier = new SqlCommandBuilder().UnquoteIdentifier(identifier);
+                this.delimitedIdentifier = identifier;
             }
             else
-                this.unquotedIdentifier = identifier;
+            {
+                this.regularIdentifier = identifier;
+            }
         }
 
-        public string Identifier => Identifier;
+        public string Identifier => this.regularIdentifier;
 
-        public string QuotedIdentifier
+        public string DelimitedIdentifier
         {
             get
             {
-                var value = this.quotedIdentifier;
+                var value = this.delimitedIdentifier;
 
                 if (value is null)
-                    value = this.quotedIdentifier = new SqlCommandBuilder().QuoteIdentifier(this.unquotedIdentifier);
+                    value = this.delimitedIdentifier = new SqlCommandBuilder().QuoteIdentifier(this.regularIdentifier);
 
                 return value;
             }
@@ -47,7 +49,9 @@ namespace TSqlCoverage.Metadata
             => GetHashCode(CollationInfo.Default);
 
         public int GetHashCode(CollationInfo collation)
-            => (collation ?? CollationInfo.Default).EqualityComparer.GetHashCode(this.unquotedIdentifier);
+            => (collation ?? throw new ArgumentNullException(nameof(collation)))
+                .EqualityComparer
+                .GetHashCode(this.regularIdentifier);
 
         public override bool Equals(object obj)
             => Equals(obj, CollationInfo.Default);
@@ -73,7 +77,7 @@ namespace TSqlCoverage.Metadata
             => Equals(other, CollationInfo.Default);
 
         public bool Equals(SqlIdentifier other, CollationInfo collation)
-            => Equals(other?.unquotedIdentifier, collation);
+            => Equals(other?.regularIdentifier, collation);
 
         public bool Equals(string other)
             => Equals(other, CollationInfo.Default);
@@ -86,11 +90,11 @@ namespace TSqlCoverage.Metadata
             if (other is null)
                 return false;
 
-            return collation.EqualityComparer.Equals(this.unquotedIdentifier, other);
+            return collation.EqualityComparer.Equals(this.regularIdentifier, other);
         }
 
         public override string ToString()
-            => QuotedIdentifier;
+            => DelimitedIdentifier;
 
         public static bool operator ==(SqlIdentifier left, SqlIdentifier right)
         {

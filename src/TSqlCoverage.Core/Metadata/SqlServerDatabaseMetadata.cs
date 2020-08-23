@@ -21,6 +21,6 @@ namespace TSqlCoverage.Metadata
         public DatabaseCompatibilityLevel CompatibilityLevel { get; }
 
         public override string ToString()
-            => Name.QuotedIdentifier;
+            => Name.DelimitedIdentifier;
     }
 }

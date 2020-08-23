@@ -19,6 +19,6 @@ namespace TSqlCoverage.Metadata
         public SqlIdentifier Name { get; }
 
         public override string ToString()
-            => $"{Database.Name.QuotedIdentifier}.{Name.QuotedIdentifier}";
+            => $"{Database.Name.DelimitedIdentifier}.{Name.DelimitedIdentifier}";
     }
 }

@@ -89,7 +89,7 @@ namespace TSqlCoverage.Metadata
                     if (database is null)
                         return null;
  
-                    var databaseIdentifier = database.Name.QuotedIdentifier;
+                    var databaseIdentifier = database.Name.DelimitedIdentifier;
 
                     using (var command = connection.CreateCommand())
                     {
@@ -144,7 +144,7 @@ namespace TSqlCoverage.Metadata
                     if (database is null)
                         return null;
 
-                    var databaseIdentifier = database.Name.QuotedIdentifier;
+                    var databaseIdentifier = database.Name.DelimitedIdentifier;
 
                     using (var command = connection.CreateCommand())
                     {
@@ -182,7 +182,7 @@ namespace TSqlCoverage.Metadata
                     if (database is null)
                         return null;
 
-                    var databaseIdentifier = database.Name.QuotedIdentifier;
+                    var databaseIdentifier = database.Name.DelimitedIdentifier;
 
                     using (var command = connection.CreateCommand())
                     {
@@ -252,7 +252,7 @@ namespace TSqlCoverage.Metadata
             using (var command = connection.CreateCommand())
             {
                 var objectId = obj.ObjectId;
-                var databaseIdentifier = obj.Schema.Database.Name.QuotedIdentifier;
+                var databaseIdentifier = obj.Schema.Database.Name.DelimitedIdentifier;
 
                 command.CommandText = $@"
                     SELECT definition, uses_quoted_identifier
