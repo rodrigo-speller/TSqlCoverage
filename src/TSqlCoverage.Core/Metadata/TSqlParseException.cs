@@ -7,49 +7,52 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
 
-[Serializable]
-public class TSqlParseException : Exception
+namespace TSqlCoverage.Metadata
 {
-    private const string DefaultMessage = "An error ocurred while parsing T-SQL code.";
-
-    public TSqlParseException()
-        : this(DefaultMessage)
-    { }
-
-    public TSqlParseException(string message)
-        : base(message ?? DefaultMessage)
+    [Serializable]
+    public class TSqlParseException : Exception
     {
-        this.Errors = Array.Empty<Error>();
-    }
+        private const string DefaultMessage = "An error ocurred while parsing T-SQL code.";
 
-    public TSqlParseException(IList<Error> errors)
-        : base("One or more errors occurred while parsing T-SQL code.")
-    {
-        if (errors is null)
-            throw new ArgumentNullException(nameof(errors));
+        public TSqlParseException()
+            : this(DefaultMessage)
+        { }
 
-        Errors = errors.ToArray();
-    }
+        public TSqlParseException(string message)
+            : base(message ?? DefaultMessage)
+        {
+            this.Errors = Array.Empty<Error>();
+        }
 
-    public TSqlParseException(System.Exception inner)
-        : base("One exception occurred while parsing T-SQL code.", inner)
-    {
-        this.Errors = Array.Empty<Error>();
-    }
+        public TSqlParseException(IList<Error> errors)
+            : base("One or more errors occurred while parsing T-SQL code.")
+        {
+            if (errors is null)
+                throw new ArgumentNullException(nameof(errors));
 
-    protected TSqlParseException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-        this.Errors = (Error[])info.GetValue("Errors", typeof(Error[]))
-            ?? Array.Empty<Error>();
-    }
+            Errors = errors.ToArray();
+        }
 
-    public IReadOnlyList<Error> Errors { get; }
+        public TSqlParseException(System.Exception inner)
+            : base("One exception occurred while parsing T-SQL code.", inner)
+        {
+            this.Errors = Array.Empty<Error>();
+        }
 
-    public override void GetObjectData(SerializationInfo info, StreamingContext context)
-    {
-        base.GetObjectData(info, context);
+        protected TSqlParseException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            this.Errors = (Error[])info.GetValue("Errors", typeof(Error[]))
+                ?? Array.Empty<Error>();
+        }
 
-        info.AddValue("Errors", Errors);
+        public IReadOnlyList<Error> Errors { get; }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+            info.AddValue("Errors", Errors);
+        }
     }
 }
