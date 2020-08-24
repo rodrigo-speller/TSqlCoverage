@@ -11,8 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.7" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.7" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
@@ -25,6 +26,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\TSqlCoverage.Core\TSqlCoverage.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="appsettings.json" />
+    <Content Remove="appsettings.*.json" />
+  </ItemGroup>
+  <ItemGroup> 
+    <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
+    <Content Condition="Exists('.private/appsettings.json')" Include=".private/appsettings.json" DependentUpon="appsettings.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
 </Project>
