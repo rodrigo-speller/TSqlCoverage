@@ -10,7 +10,6 @@ namespace TSqlCoverage.Core.IntegrationTests.Configuration.Fixtures
     {
         private readonly static ServiceContext GlobalContext = new ServiceContext();
         private readonly IServiceScope scope;
-        private bool disposed;
 
         public ServiceProviderFixture()
         {
